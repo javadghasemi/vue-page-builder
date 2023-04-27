@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/javadghasemi/vue-page-builder/issues"
   },
-  "homepage": "https://github.com/javadghasemi/vue-page-builder#readme"
+  "homepage": "https://github.com/javadghasemi/vue-page-builder#readme",
+  "dependencies": {
+    "sortablejs": "^1.15.0"
+  }
 }

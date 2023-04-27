@@ -1,6 +1,24 @@
+import { reactive, ref, defineComponent } from 'vue';
+
 import VuePageBuilder from './components/PageBuilder.vue';
+import Section from './Section';
+import styler from './styler';
 
 class PageBuilder {
+    static BUILDER_OPTIONS = {
+        title: '',
+        intro: true,
+        sections: [],
+        plugins: [],
+        themes: [],
+        columnsPrefix: {
+            mobile: 'is-mobile-',
+            tablet: 'is-tablet-',
+            desktop: 'is-desktop-',
+            widescreen: 'is-widescreen-',
+            ultrawide: 'is-ultrawide-'
+        }
+    };
     static PLUGINS = [];
     static Vue;
 
@@ -19,6 +37,26 @@ class PageBuilder {
         this.themes = options.themes;
 
         this.installPlugins();
+    }
+
+    add(options, position) {
+        const section = new Section(options);
+
+        if (position !== undefined) {
+            this.sections.splice(position, 0, section);
+            return;
+        }
+        console.log(section);
+
+        this.sections.push(section);
+    }
+
+    clear() {
+        const tempSections = this.sections;
+        this.sections.forEach(section => section.destroy());
+        this.sections.splice(0, this.sections.length);
+
+        return tempSections;
     }
 
     installPlugins() {
@@ -42,15 +80,38 @@ class PageBuilder {
         }
 
 
-        this.components[name] = definition;
+        this.components[name] = defineComponent({
+            ...definition,
+            directives: {styler: this.styler}
+        });
+    }
+
+    set(data) {
+        this.title = data.title !== undefined ? data.title : this.title;
+        if (data.sections.length && Array.isArray(data.sections)) {
+            this.sections = data.sections.map(section => {
+                const sectionData = {
+                    name: section.name,
+                    schema: section.schema,
+                    data: section.data
+                };
+                if (!sectionData.schema) {
+                    sectionData.schema = this.components[sectionData.name].options.$schema;
+                }
+
+                return new Section(sectionData);
+            });
+        }
     }
 
     static install(vue, options = {}) {
-        const builder = new PageBuilder(options);
+        if (!this.Vue) this.Vue = vue;
 
-        if (!this.Vue) {
-            this.Vue = vue;
-        }
+        const builder = new PageBuilder(Object.assign({}, this.BUILDER_OPTIONS, options));
+
+        builder.sections = reactive(builder.sections);
+        builder.isEditing = ref(builder.isEditing);
+        builder.isSorting = ref(builder.isSorting);
 
         const extention = {
             components: builder.components,
@@ -84,5 +145,7 @@ class PageBuilder {
         this.PLUGINS.push({ plugin, options });
     }
 }
+
+PageBuilder.use(styler);
 
 export default PageBuilder;

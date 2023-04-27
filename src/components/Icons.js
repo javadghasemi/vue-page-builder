@@ -44,7 +44,6 @@ export default defineComponent({
         }
     },
     render() {
-        console.log(this.name);
         const path = h('path', {
             d: icons[this.name]
         });

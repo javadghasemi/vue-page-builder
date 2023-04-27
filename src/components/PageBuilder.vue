@@ -1,37 +1,43 @@
 <template>
   <div class="font-vazir" dir="rtl">
+    <div id="artboard" class="artboard" ref="artboard"
+      :class="{ 'is-sorting': $builder.isSorting, 'is-editable': $builder.isEditing }">
+      <component v-for="section in $builder.sections" :is="section.name" :key="section.id" :id="section.id" />
+    </div>
+
     <div class="controller">
-      <div class="controller-intro">
+      <div class="controller-intro" v-if="showIntro && !this.$builder.sections.length">
         <label for="projectName">چطوری؟ وقتشه سایت خودت رو بسازی</label>
         <input type="text" class="controller-input" id="projectName" placeholder="اسم سایتت چی باشه؟" v-model="title">
         <template v-if="themes">
           <div class="controller-themes">
-            <button class="controller-theme font-vazir" v-for="theme in themes" :key="theme.id">
+            <button class="controller-theme font-vazir" v-for="theme in themes" :key="theme.id" @click="addTheme(theme)">
               {{ theme.name }}
             </button>
           </div>
         </template>
-
-        <div class="controller-panel">
-          <button class="controller-button green" tooltop-position="top" tooltip="export">
-            <icons :name="'download'" />
-          </button>
-          <button class="controller-button red" tooltop-position="top" tooltip="clear sections">
-            <icons name="trash" />
-          </button>
-          <button class="controller-button gray" tooltop-position="top" tooltip="undo">
-            <icons name="undo" />
-          </button>
-          <button class="controller-button blue" tooltop-position="top" tooltip="sorting">
-            <icons name="sort" />
-          </button>
-          <button class="controller-button blue" tooltop-position="top" tooltip="add section">
-            <icons name="plus" />
-          </button>
-        </div>
+      </div>
+      <div class="controller-panel" dir="ltr">
+        <button class="controller-button green" tooltop-position="top" tooltip="export">
+          <icons :name="'download'" />
+        </button>
+        <button class="controller-button red" v-if="!tempSections" @click="clearSections" tooltop-position="top" tooltip="clear sections">
+          <icons name="trash" />
+        </button>
+        <button class="controller-button gray" v-if="tempSections" @click="undo" tooltop-position="top" tooltip="undo">
+          <icons name="undo" />
+        </button>
+        <button class="controller-button blue" tooltop-position="top" tooltip="sorting">
+          <icons name="sort" />
+        </button>
+        <button class="controller-button" :class="{ 'blue': !listShown, 'red': listShown, 'is-rotated': listShown }"
+          tooltop-position="top" tooltip="add section" @click="newSection">
+          <icons name="plus" />
+        </button>
       </div>
     </div>
-    <ul class="menu is-visiable" ref="menu">
+
+    <ul class="menu" :class="{ 'is-visiable': listShown }" ref="menu">
       <li class="menu-group" v-for="(group, name) in groups" :key="name">
         <div class="menu-header" @click="toggleGroupVisibility">
           <span class="menu-title">{{ name }}</span>
@@ -41,7 +47,7 @@
         </div>
         <div class="menu-body">
           <template v-for="section in group">
-            <a class="menu-element">
+            <a class="menu-element" @click="addSection(section)" @drag="currentSection = section">
               <img :src="section.cover" alt="" class="menu-elementImage" v-if="section.cover">
               <span class="menu-elementTitle">{{ section.name }}</span>
             </a>
@@ -53,21 +59,80 @@
 </template>
 
 <script>
+import Sortable from 'Sortablejs';
+
 import Icons from './Icons';
 
 export default {
   components: { Icons },
+  props: {
+    showIntro: {
+      type: Boolean,
+      default: true
+    },
+    data: {
+      type: Object,
+      default: () => ({
+        title: '',
+        sections: []
+      })
+    }
+  },
   data() {
     return {
       title: null,
+      listShown: false,
+      tempSections: null,
       sections: this.getSections(),
+      currentSection: '',
       groups: {}
     }
   },
   created() {
-    this.themes = this.$builder.themes;
+    this.$builder.set(this.data);
     this.title = this.$builder.title;
+    this.themes = this.$builder.themes;
     this.generateGroups();
+  },
+  mounted() {
+    this.$builder.rootEl = this.$refs.artboard;
+    const groups = this.$refs.menu.querySelectorAll('.menu-body');
+    const self = this;
+
+    groups.forEach((group) => {
+      Sortable.create(group, {
+        group: {
+          name: 'sections-group',
+          put: false,
+          pull: 'clone'
+        },
+        sort: false
+      });
+    });
+
+    this.sortable = Sortable.create(this.$refs.artboard, {
+      group: {
+        name: 'artboard',
+        put: 'section-group'
+      },
+      animation: 150,
+      scroll: true,
+      scrollSpeed: 10,
+      sort: false,
+      disabled: true,
+      preventOnFilter: false,
+      onAdd(evt) {
+        console.log('sdsssssssss');
+        self.addSection(self.currentSection, evt.newIndex);
+        evt.item.remove();
+      },
+      onUpdate(evt) {
+        self.$builder.sort(evt.oldIndex, evt.newIndex);
+      }
+    });
+  },
+  updated() {
+    if(this.$builder.scrolling) { this.$builder.scrolling(this.$refs.artboard); }
   },
   watch: {
     title(value) {
@@ -89,6 +154,20 @@ export default {
       });
 
       return sections;
+    },
+    clearSections() {
+      this.tempSections = this.$builder.clear();
+      console.log('clear', this.$builder.sections.length);
+      setTimeout(() => {
+        this.tempSections = null;
+      }, 5000);
+    },
+    undo() {
+      this.$builder.sections = this.tempSections;
+      this.tempSections = null;
+    },
+    addTheme(theme) {
+      this.$builder.set(theme);
     },
     generateGroups() {
       let groups = { random: [] };
@@ -112,15 +191,41 @@ export default {
     },
     toggleGroupVisibility(e) {
       const element = e.target;
-      console.log(element.closest);
       const group = element.closest('.menu-group');
       group.classList.toggle('is-visiable');
+    },
+    toggleListVisibility() {
+      this.listShown = !this.listShown;
+    },
+    newSection() {
+      // if (this.sections.length === 1) {
+      //   this.addSection(this.sections[0]);
+      //   return;
+      // }
+
+      this.toggleListVisibility();
+    },
+    addSection(section, position) {
+      this.$builder.add(section, position);
+      console.log('add', this.$builder.sections.length);
     }
   }
 }
 </script>
 
 <style>
+.artboard {
+  transform-origin: top center;
+}
+
+.artboard.is-editable {
+  outline: none;
+}
+
+.artboard.is-editable:hover {
+  box-shadow: inset 0 0 0 2px #c1c1c1;
+}
+
 .controller {
   box-sizing: border-box;
 }
@@ -194,15 +299,17 @@ export default {
   color: #fff;
   fill: #fff;
   font-size: 16px;
+  margin-right: 20px;
+}
+
+.controller-button.is-rotated svg {
+  transform: rotate(45deg);
 }
 
 .controller-button svg {
   transition: 0.2s;
 }
 
-.controller-button {
-  margin-right: 20px;
-}
 
 .icons {
   display: block;
@@ -303,11 +410,13 @@ a.menu-element:hover {
   position: absolute;
   right: 0;
   bottom: 0;
-  left:0;
+  left: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   text-align: center;
   padding: 5px;
 }
+
+
 
 /* Colors Style */
 .green {
