@@ -10,10 +10,12 @@ function installStyler({ builder, Vue }) {
     });
 
     builder.styler = {
-        inserted(el, binding, vnode) {
+        mounted(el, binding, vnode) {
+            console.log(el, binding, vnode);
             const newNode = document.createElement('div');
-            const section = vnode.context.$section;
-            const rootApp = vnode.context.$root.$el;
+            const section = vnode.ctx.ctx.$section;
+            console.log(section);
+            const rootApp = vnode.ctx.ctx.$root.$el;
 
             rootApp.appendChild(newNode);
             el.classList.add('is-editable');

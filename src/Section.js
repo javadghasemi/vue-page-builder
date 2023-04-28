@@ -1,8 +1,10 @@
+import Seeder from './Seeder';
+
 let counter = 0;
 
 export default class Section {
     defaultOptions = {
-        name: null,
+        name: 'ssssssss',
         schema: {}
     }
 
@@ -11,7 +13,7 @@ export default class Section {
         options = Object.assign({}, this.defaultOptions, options);
         this.name = options.name;
         this.schema = options.schema;
-        this.data = options.data;
+        this.data = options.data || Seeder.seed(options.schema);
         this.stylers = [];
     }
 

@@ -3,6 +3,7 @@ import { reactive, ref, defineComponent } from 'vue';
 import VuePageBuilder from './components/PageBuilder.vue';
 import Section from './Section';
 import styler from './styler';
+import mixin from './mixin';
 
 class PageBuilder {
     static BUILDER_OPTIONS = {
@@ -39,6 +40,10 @@ class PageBuilder {
         this.installPlugins();
     }
 
+    find(id) {
+        return this.sections.find(s => s.id === id);
+    }
+
     add(options, position) {
         const section = new Section(options);
 
@@ -46,7 +51,6 @@ class PageBuilder {
             this.sections.splice(position, 0, section);
             return;
         }
-        console.log(section);
 
         this.sections.push(section);
     }
@@ -82,7 +86,8 @@ class PageBuilder {
 
         this.components[name] = defineComponent({
             ...definition,
-            directives: {styler: this.styler}
+            directives: {styler: this.styler},
+            mixins: [this.mixin]
         });
     }
 
@@ -95,9 +100,9 @@ class PageBuilder {
                     schema: section.schema,
                     data: section.data
                 };
-                if (!sectionData.schema) {
-                    sectionData.schema = this.components[sectionData.name].options.$schema;
-                }
+                // if (!sectionData.schema) {
+                //     sectionData.schema = this.components[sectionData.name].options.$schema;
+                // }
 
                 return new Section(sectionData);
             });
@@ -147,5 +152,6 @@ class PageBuilder {
 }
 
 PageBuilder.use(styler);
+PageBuilder.use(mixin);
 
 export default PageBuilder;

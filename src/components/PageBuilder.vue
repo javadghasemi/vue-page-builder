@@ -122,7 +122,6 @@ export default {
       disabled: true,
       preventOnFilter: false,
       onAdd(evt) {
-        console.log('sdsssssssss');
         self.addSection(self.currentSection, evt.newIndex);
         evt.item.remove();
       },
@@ -206,6 +205,7 @@ export default {
       this.toggleListVisibility();
     },
     addSection(section, position) {
+      console.log(section);
       this.$builder.add(section, position);
       console.log('add', this.$builder.sections.length);
     }
