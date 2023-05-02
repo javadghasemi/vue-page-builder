@@ -156,7 +156,6 @@ export default {
     },
     clearSections() {
       this.tempSections = this.$builder.clear();
-      console.log('clear', this.$builder.sections.length);
       setTimeout(() => {
         this.tempSections = null;
       }, 5000);
@@ -197,17 +196,15 @@ export default {
       this.listShown = !this.listShown;
     },
     newSection() {
-      // if (this.sections.length === 1) {
-      //   this.addSection(this.sections[0]);
-      //   return;
-      // }
+      if (this.sections.length === 1) {
+        this.addSection(this.sections[0]);
+        return;
+      }
 
       this.toggleListVisibility();
     },
     addSection(section, position) {
-      console.log(section);
       this.$builder.add(section, position);
-      console.log('add', this.$builder.sections.length);
     }
   }
 }

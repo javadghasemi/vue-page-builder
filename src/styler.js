@@ -1,31 +1,30 @@
-import {defineComponent} from 'vue';
+import { defineComponent, createApp, getCurrentInstance } from 'vue';
 import Styler from './components/Styler.vue';
+import { getTypeFromSchema, getTypeFromTagName } from './util';
 
 function installStyler({ builder, Vue }) {
     const StylerInstance = defineComponent({
         extends: Styler,
         beforeCreate() {
-            this.$builder = builder;
-        }
-    });
+          this.$builder = builder;
+        },
+      });
 
     builder.styler = {
         mounted(el, binding, vnode) {
-            console.log(el, binding, vnode);
             const newNode = document.createElement('div');
             const section = vnode.ctx.ctx.$section;
-            console.log(section);
             const rootApp = vnode.ctx.ctx.$root.$el;
 
             rootApp.appendChild(newNode);
             el.classList.add('is-editable');
-            section.stylers.push(new StylerInstance({
-                propsData: {
-                    el,
-                    section,
-                    type: binding.arg
-                }
-            }).$mount(newNode));
+
+            section.stylers.push(createApp(StylerInstance, {
+                el,
+                section,
+                type: binding.arg || getTypeFromSchema(binding.expression, section.schema) || getTypeFromTagName(el.tagName),
+                name: binding.value
+            }).mount(newNode));
         }
     };
 }

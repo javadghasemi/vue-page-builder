@@ -4,7 +4,7 @@
       <div class="grid">
         <div class="column is-desktop-6 add0center-vertical">
           <h3 class="header-title" v-html="$sectionData.title" v-styler="$sectionData.title"></h3>
-          <p class="header-content" v-html="$sectionData.content"></p>
+          <p class="header-content" v-html="$sectionData.content" v-styler="$sectionData.content"></p>
           <a href="" class="button">
 
           </a>
@@ -32,7 +32,6 @@ export default {
     }
   },
   created() {
-    console.log('ssss', this.$sectionData);
   }
 }
 </script>
