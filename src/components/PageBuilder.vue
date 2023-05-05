@@ -438,6 +438,7 @@ a.menu-element:hover {
   text-align: center;
   padding: 5px;
 }
+
 /* Colors Style */
 .green {
   background-color: #18d88b;

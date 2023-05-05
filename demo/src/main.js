@@ -3,9 +3,6 @@ import './style.css';
 import App from './App.vue';
 import VuePageBuilder from './../../src';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap';
-
 // Components
 import hero1 from './sections/hero/hero1.vue';
 

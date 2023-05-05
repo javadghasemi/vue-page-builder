@@ -1,6 +1,7 @@
 import { reactive, ref, defineComponent } from 'vue';
 
 import VuePageBuilder from './components/PageBuilder.vue';
+import Renderer from './components/Renderer.vue';
 import Section from './Section';
 import styler from './styler';
 import mixin from './mixin';
@@ -134,10 +135,8 @@ class PageBuilder {
             }
         }
 
-        vue.component('PageBuilder', {
-            extends: VuePageBuilder,
-            ...extention
-        });
+        vue.component('PageBuilder', { extends: VuePageBuilder, ...extention });
+        vue.component('Renderer', { extends: Renderer, ...extention });
     }
 
     static component(name, definition) {

@@ -35,7 +35,7 @@
         </ul>
       </li>
       <li v-if="currentOption === 'link'">
-        <div class="input-group is-rounded has-itemAfter is-primary">
+        <div class="igroup is-rounded has-itemAfter is-primary">
           <input type="text" class="input" placeholder="لینک مورد نظر را وارد کنید" v-model="url">
           <button class="button" @click="addLink">
             <icons name="link"/>
@@ -223,92 +223,6 @@ export default {
   padding: 0;
 }
 
-.styler .input-group {
-  margin: 5px;
-}
-
-.input-group {
-    display: flex;
-    margin-bottom: 10px;
-    direction: ltr;
-}
-
-.input-group.has-itemAfter .input {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right: 0;
-}
-
-.input-group.is-rounded>.input {
-  border-radius: 10em;
-}
-
-.input.is-primary,
-.input-group.is-primary>.input {
-  border-color: #0072ff;
-}
-
-.input-group>*:not(.inputGroup-label) {
-  margin-bottom: 0;
-}
-
-.button.is-rounded,
-.buttons.is-rounded>.button,
-.input-group.is-rounded>.button {
-  border-width: 1px;
-  border-radius: 10em;
-}
-
-.button.is-primary,
-.buttons.is-primary>.button,
-.input-group.is-primary>.button {
-  border-color: #0072ff;
-  background-color: #0072ff;
-  color: #fff;
-  fill: #fff;
-  stroke-width: 0;
-}
-
-.input-group>*:not(.inputGroup-label) {
-  margin-bottom: 0;
-}
-
-.input {
-  margin-bottom: 10px;
-  padding: 0.5em 0.75em;
-  /* width: 100%; */
-  outline: none;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 4px;
-  appearance: none;
-  border-color: #c1c1c1;
-}
-
-.button {
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  padding: 0.5em 0.75em;
-  outline: none;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 4px;
-  background-clip: border-box;
-  vertical-align: top;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-  border-color: #0072ff;
-  background-color: #0072ff;
-  color: #fff;
-  fill: #fff;
-  stroke-width: 0;
-}
-
 .styler-input {
   background: #fff;
   color: #323c47;
@@ -396,7 +310,34 @@ export default {
   opacity: 1;
 }
 
-.styler .input-group {
+.styler .igroup {
+  display: flex;
+  margin: 5px;
+}
+
+.input {
+  border: none;
+  width: 100%;
+  border-radius: 0px 20px 20px 0px;
+  padding: 4px;
+  padding-top: 6px;
+  padding-right: 10px;
+}
+
+.button {
+  border:none;
+  border-radius: 20px 0px 0px 20px;
+  background: #0d6efd;
+  color: #fff;
+  fill: #fff;
+  padding: 8px;
+}
+
+.button:hover {
+  background: #0b5ed7;
+}
+
+.igroup {
   margin: 5px;
 }
 </style>

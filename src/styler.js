@@ -12,6 +12,9 @@ function installStyler({ builder, Vue }) {
 
     builder.styler = {
         mounted(el, binding, vnode, prevNode) {
+            // console.log('---->>', builder);
+            if(builder.isRendered) return;
+
             const newNode = document.createElement('div');
             const section = vnode.ctx.ctx.$section;
             const rootApp = vnode.ctx.ctx.$root.$el;
