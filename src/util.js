@@ -62,3 +62,25 @@ export function getTypeFromTagName(tagName) {
       break;
   }
 }
+
+export function cleanDOM (artboard) {
+  const editables = Array.from(artboard.querySelectorAll('.is-editable'));
+  const uploaders = Array.from(artboard.querySelectorAll('.uploader'));
+  const stylers = Array.from(artboard.querySelectorAll('.styler'));
+
+  editables.forEach((el) => {
+    el.contentEditable = 'inherit';
+    el.classList.remove('is-editable');
+  });
+  uploaders.forEach((el) => {
+    const input = el.querySelector(':scope > input');
+    const image = el.querySelector(':scope > img');
+
+    image.classList.add('add-full-width');
+    el.classList.remove('uploader');
+    input.remove();
+  });
+  stylers.forEach((styler) => {
+    styler.remove();
+  });
+}

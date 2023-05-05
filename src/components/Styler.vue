@@ -2,6 +2,11 @@
   <div class="styler" v-if="$builder.isEditing" :class="{ 'is-visible': isVisible }" ref="styler" id="styler"
     @click.stop="">
     <ul class="styler-list">
+      <li v-if="type === 'button'">
+        <button class="styler-button" @click="updateOption('link')">
+          <icons name="link"/>
+        </button>
+      </li>
       <template v-if="type === 'text'">
         <li>
           <button class="styler-button" @click="updateOption('textColor')">
@@ -14,7 +19,7 @@
           </button>
         </li>
         <li>
-          <button class="styler-button">
+          <button class="styler-button" @click="updateOption('textStyle')">
             <icons name="textStyle" />
           </button>
         </li>
@@ -25,26 +30,52 @@
         <ul class="colorer styler-list">
           <li v-for="(color, index) in colors" :key="index">
             <input type="radio" :id="`color${color.charAt(0).toUpperCase() + color.slice(1)}`" name="colorer"
-              :value="textColors[index]"
-              v-model="textColor">
+              :value="textColors[index]" v-model="textColor">
           </li>
         </ul>
+      </li>
+      <li v-if="currentOption === 'link'">
+        <div class="input-group is-rounded has-itemAfter is-primary">
+          <input type="text" class="input" placeholder="لینک مورد نظر را وارد کنید" v-model="url">
+          <button class="button" @click="addLink">
+            <icons name="link"/>
+          </button>
+        </div>
       </li>
       <li v-if="currentOption === 'align'">
         <ul class="styler-list align">
           <li>
             <button class="styler-button" @click="execute('justifyright')">
-              <icons name="right"/>
+              <icons name="right" />
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('justifycenter')">
-              <icons name="center"/>
+              <icons name="center" />
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('justifyleft')">
-              <icons name="left"/>
+              <icons name="left" />
+            </button>
+          </li>
+        </ul>
+      </li>
+      <li v-if="currentOption === 'textStyle'">
+        <ul class="styler-list align">
+          <li>
+            <button class="styler-button" @click="execute('bold')">
+              <icons name="bold" />
+            </button>
+          </li>
+          <li>
+            <button class="styler-button" @click="execute('italic')">
+              <icons name="italic" />
+            </button>
+          </li>
+          <li>
+            <button class="styler-button" @click="execute('underline')">
+              <icons name="underline" />
             </button>
           </li>
         </ul>
@@ -84,7 +115,8 @@ export default {
       textColors: ['#4da1ff', '#38E4B7', '#EA4F52', '#000000', '#FFFFFF'],
       textColor: '',
       isVisible: false,
-      currentOption: ''
+      currentOption: '',
+      url: ''
     }
   },
   watch: {
@@ -94,6 +126,10 @@ export default {
     }
   },
   created() {
+    if (this.type === 'button') {
+      this.url = this.section.get(`${this.name}.href`);
+      this.el.contentEditable = 'true';
+    }
     if (this.type === 'text') {
       this.el.contentEditable = 'true';
     }
@@ -108,6 +144,13 @@ export default {
       this.$nextTick(() => {
         this.popper.update();
       });
+    },
+    addLink() {
+      console.log(this.section);
+      this.section.set(`${this.name}.href`, this.url);
+    },
+    addClass() {
+
     },
     showStyler(event) {
       event.stopPropagation();
@@ -138,6 +181,11 @@ export default {
         this.popper = null;
       }
       document.removeEventListener('click', this.hideStyler, true);
+
+      if (this.type === 'button') {
+        this.section.set(`${this.name}.text`, this.el.innerHTML);
+        return;
+      }
 
       this.section.set(this.name, this.el.innerHTML);
     },
@@ -175,9 +223,97 @@ export default {
   padding: 0;
 }
 
+.styler .input-group {
+  margin: 5px;
+}
+
+.input-group {
+    display: flex;
+    margin-bottom: 10px;
+    direction: ltr;
+}
+
+.input-group.has-itemAfter .input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+
+.input-group.is-rounded>.input {
+  border-radius: 10em;
+}
+
+.input.is-primary,
+.input-group.is-primary>.input {
+  border-color: #0072ff;
+}
+
+.input-group>*:not(.inputGroup-label) {
+  margin-bottom: 0;
+}
+
+.button.is-rounded,
+.buttons.is-rounded>.button,
+.input-group.is-rounded>.button {
+  border-width: 1px;
+  border-radius: 10em;
+}
+
+.button.is-primary,
+.buttons.is-primary>.button,
+.input-group.is-primary>.button {
+  border-color: #0072ff;
+  background-color: #0072ff;
+  color: #fff;
+  fill: #fff;
+  stroke-width: 0;
+}
+
+.input-group>*:not(.inputGroup-label) {
+  margin-bottom: 0;
+}
+
+.input {
+  margin-bottom: 10px;
+  padding: 0.5em 0.75em;
+  /* width: 100%; */
+  outline: none;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  appearance: none;
+  border-color: #c1c1c1;
+}
+
+.button {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 0.5em 0.75em;
+  outline: none;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  background-clip: border-box;
+  vertical-align: top;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+  border-color: #0072ff;
+  background-color: #0072ff;
+  color: #fff;
+  fill: #fff;
+  stroke-width: 0;
+}
+
 .styler-input {
   background: #fff;
-
+  color: #323c47;
+  border: 0;
+  outline: 0;
 }
 
 .styler-button {
@@ -199,7 +335,7 @@ export default {
   height: 42px;
 }
 
-.colorer li >input {
+.colorer li>input {
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
@@ -211,31 +347,31 @@ export default {
   outline: none;
 }
 
-.colorer li >input:checked {
+.colorer li>input:checked {
   border-color: #475564;
 }
 
-.colorer li >input:hover {
+.colorer li>input:hover {
   border-color: #475564;
 }
 
-.colorer li >input#colorRed {
+.colorer li>input#colorRed {
   background: #ff3d3d;
 }
 
-.colorer li >input#colorBlue {
+.colorer li>input#colorBlue {
   background: #0072FF;
 }
 
-.colorer li >input#colorGreen {
+.colorer li>input#colorGreen {
   background: #18d88b;
 }
 
-.colorer li >input#colorBlack {
+.colorer li>input#colorBlack {
   background: #000;
 }
 
-.colorer li >input#colorWhite {
+.colorer li>input#colorWhite {
   background: #fff;
 }
 
@@ -249,6 +385,10 @@ export default {
 
 .styler-selctor {
   margin: 0 5px;
+}
+
+.align {
+  height: 42px;
 }
 
 .styler.is-visible {

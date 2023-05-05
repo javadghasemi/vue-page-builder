@@ -1,8 +1,9 @@
 <template>
   <div class="font-vazir" dir="rtl">
     <div id="artboard" class="artboard" ref="artboard"
-      :class="{ 'is-sorting': $builder.isSorting, 'is-editable': $builder.isEditing }">
-      <component v-for="section in $builder.sections" :is="section.name" :key="section.id" :id="section.id" />
+      :class="{ 'is-sorting': $builder.isSorting.value, 'is-editable': $builder.isEditing.value }">
+      <component v-for="section in $builder.sections" :is="section.name" :key="section.id" :id="section.id"
+        class="is-editable" />
     </div>
 
     <div class="controller">
@@ -18,16 +19,18 @@
         </template>
       </div>
       <div class="controller-panel" dir="ltr">
-        <button class="controller-button green" tooltop-position="top" tooltip="export">
+        <button class="controller-button green" tooltop-position="top" tooltip="export" @click="submit">
           <icons :name="'download'" />
         </button>
-        <button class="controller-button red" v-if="!tempSections" @click="clearSections" tooltop-position="top" tooltip="clear sections">
+        <button class="controller-button red" v-if="!tempSections" @click="clearSections" tooltop-position="top"
+          tooltip="clear sections">
           <icons name="trash" />
         </button>
         <button class="controller-button gray" v-if="tempSections" @click="undo" tooltop-position="top" tooltip="undo">
           <icons name="undo" />
         </button>
-        <button class="controller-button blue" tooltop-position="top" tooltip="sorting">
+        <button class="controller-button" :class="{ 'red': $builder.isSorting.value, 'blue': !$builder.isSorting.value }"
+          @click="toggleSort" tooltop-position="top" tooltip="sorting">
           <icons name="sort" />
         </button>
         <button class="controller-button" :class="{ 'blue': !listShown, 'red': listShown, 'is-rotated': listShown }"
@@ -100,7 +103,7 @@ export default {
     const self = this;
 
     groups.forEach((group) => {
-      Sortable.create(group, {
+      new Sortable(group, {
         group: {
           name: 'sections-group',
           put: false,
@@ -131,7 +134,7 @@ export default {
     });
   },
   updated() {
-    if(this.$builder.scrolling) { this.$builder.scrolling(this.$refs.artboard); }
+    if (this.$builder.scrolling) { this.$builder.scrolling(this.$refs.artboard); }
   },
   watch: {
     title(value) {
@@ -167,6 +170,18 @@ export default {
     addTheme(theme) {
       this.$builder.set(theme);
     },
+    toggleSort() {
+      this.$builder.isSorting.value = !this.$builder.isSorting.value;
+
+      if (!this.$builder.isSorting.value && this.sortable) {
+        this.sortable.option('sort', false);
+        this.sortable.option('disabled', true);
+        return;
+      }
+
+      this.sortable.option('disabled', false);
+      this.sortable.option('sort', true);
+    },
     generateGroups() {
       let groups = { random: [] };
 
@@ -194,6 +209,7 @@ export default {
     },
     toggleListVisibility() {
       this.listShown = !this.listShown;
+      this.sortable.option('disabled', !this.listShown);
     },
     newSection() {
       if (this.sections.length === 1) {
@@ -205,6 +221,9 @@ export default {
     },
     addSection(section, position) {
       this.$builder.add(section, position);
+    },
+    submit() {
+      this.$emit('saved', this.$builder);
     }
   }
 }
@@ -215,12 +234,19 @@ export default {
   transform-origin: top center;
 }
 
-.artboard.is-editable {
+
+
+.artboard.is-editable .is-editable {
   outline: none;
 }
 
-.artboard.is-editable:hover {
+.is-editable:hover {
   box-shadow: inset 0 0 0 2px #c1c1c1;
+}
+
+.sortable-ghost {
+  opacity: 0.3;
+  box-shadow: 0 0 2px 1px #0072FF;
 }
 
 .controller {
@@ -412,9 +438,6 @@ a.menu-element:hover {
   text-align: center;
   padding: 5px;
 }
-
-
-
 /* Colors Style */
 .green {
   background-color: #18d88b;

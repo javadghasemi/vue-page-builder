@@ -29,7 +29,7 @@ function installMixin({ builder }) {
         },
         updated() {
             Array.from(this.$el.querySelectorAll('[contentEditable]')).forEach((el) => {
-                el.contentEditable = this.$builder.isEditing;
+                el.contentEditable = this.$builder.isEditing.value;
             });
         }
     }

@@ -4,6 +4,7 @@ import VuePageBuilder from './components/PageBuilder.vue';
 import Section from './Section';
 import styler from './styler';
 import mixin from './mixin';
+import { cleanDOM } from './util';
 
 class PageBuilder {
     static BUILDER_OPTIONS = {
@@ -34,8 +35,11 @@ class PageBuilder {
 
     constructor(options) {
         this.title = options.title;
-        this.sections = options.sections;
+        this.sections = reactive([]);
         this.themes = options.themes;
+        this.assets = {
+            css: options.assets?.css || 'dist/css/app.css'
+        }
 
         this.installPlugins();
     }
@@ -86,7 +90,7 @@ class PageBuilder {
 
         this.components[name] = defineComponent({
             ...definition,
-            directives: {styler: this.styler},
+            directives: { styler: this.styler },
             mixins: [this.mixin]
         });
     }
@@ -109,12 +113,17 @@ class PageBuilder {
         }
     }
 
+    sort(oldIndex, newIndex) {
+        const section = this.sections[oldIndex];
+        this.sections.splice(oldIndex, 1);
+        this.sections.splice(newIndex, 0, section);
+    }
+
     static install(vue, options = {}) {
         if (!this.Vue) this.Vue = vue;
 
         const builder = new PageBuilder(Object.assign({}, this.BUILDER_OPTIONS, options));
 
-        builder.sections = reactive(builder.sections);
         builder.isEditing = ref(builder.isEditing);
         builder.isSorting = ref(builder.isSorting);
 
@@ -148,6 +157,57 @@ class PageBuilder {
 
         // append to the list of to-be installed plugins.
         this.PLUGINS.push({ plugin, options });
+    }
+
+    outputFragment() {
+        const frag = document.createDocumentFragment();
+        frag.appendChild(document.head.cloneNode(true));
+        frag.appendChild(this.rootEl.cloneNode(true));
+
+        return frag;
+    }
+
+    preview() {
+        const frag = this.outputFragment();
+        const artboard = frag.querySelector('#artboard');
+        const printPreview = window.open('about:blank', 'print_preview');
+        const printDocument = printPreview.document;
+        cleanDOM(frag);
+        printDocument.open();
+        printDocument.write(
+            `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>${this.title}</title>
+                <link href="${this.assets.css}" rel="stylesheet">
+            </head>
+            <body>
+                ${artboard.innerHTML}
+            <body>
+            </html>`
+        );
+    }
+
+    toJSON() {
+        return {
+            title: this.title,
+            sections: this.sections.map(section => ({
+                name: section.name,
+                data: section.data
+            }))
+        }
+    }
+
+    export(method = 'json') {
+        if ((method === 'zip') && (typeof this.download === 'function')) {
+            return this.download(this.assets);
+        }
+
+        if (method === 'preview') {
+            return this.preview();
+        }
+
+        return this.toJSON();
     }
 }
 

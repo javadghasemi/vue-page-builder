@@ -1,10 +1,12 @@
+import toPath from 'lodash-es/toPath';
+import getPath from 'lodash-es/get';
 import Seeder from './Seeder';
 
 let counter = 0;
 
 export default class Section {
     defaultOptions = {
-        name: 'ssssssss',
+        name: null,
         schema: {}
     }
 
@@ -17,8 +19,20 @@ export default class Section {
         this.stylers = [];
     }
 
-    set() {
+    set(name, value) {
+        const path = toPath(name);
+        const prop = path.pop();
+        console.log('===>>', path, name, prop);
 
+        // path.shift();
+        const obj = path.length === 0 ? this.data : getPath(this.data, path);
+        console.log('====><<<', this.data[path], path);
+        if(typeof value === 'function') {
+            value(obj[prop]);
+            return;
+        }
+
+        obj[prop] = value;
     }
 
     get() {

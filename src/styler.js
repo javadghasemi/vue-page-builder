@@ -11,7 +11,7 @@ function installStyler({ builder, Vue }) {
       });
 
     builder.styler = {
-        mounted(el, binding, vnode) {
+        mounted(el, binding, vnode, prevNode) {
             const newNode = document.createElement('div');
             const section = vnode.ctx.ctx.$section;
             const rootApp = vnode.ctx.ctx.$root.$el;
@@ -22,8 +22,8 @@ function installStyler({ builder, Vue }) {
             section.stylers.push(createApp(StylerInstance, {
                 el,
                 section,
-                type: binding.arg || getTypeFromSchema(binding.expression, section.schema) || getTypeFromTagName(el.tagName),
-                name: binding.value
+                type: getTypeFromSchema(binding.expression, section.schema) || getTypeFromTagName(el.tagName),
+                name: binding.arg
             }).mount(newNode));
         }
     };
