@@ -1,6 +1,6 @@
 <template>
   <div class="styler" v-if="$builder.isEditing" :class="{ 'is-visible': isVisible }" ref="styler" id="styler"
-    @click.stop="">
+       @click.stop="">
     <ul class="styler-list">
       <li v-if="type === 'button'">
         <button class="styler-button" @click="updateOption('link')">
@@ -10,17 +10,17 @@
       <template v-if="type === 'text'">
         <li>
           <button class="styler-button" @click="updateOption('textColor')">
-            <icons name="palettes" />
+            <icons name="palettes"/>
           </button>
         </li>
         <li>
           <button class="styler-button" @click="updateOption('align')">
-            <icons name="align" />
+            <icons name="align"/>
           </button>
         </li>
         <li>
           <button class="styler-button" @click="updateOption('textStyle')">
-            <icons name="textStyle" />
+            <icons name="textStyle"/>
           </button>
         </li>
       </template>
@@ -30,7 +30,7 @@
         <ul class="colorer styler-list">
           <li v-for="(color, index) in colors" :key="index">
             <input type="radio" :id="`color${color.charAt(0).toUpperCase() + color.slice(1)}`" name="colorer"
-              :value="textColors[index]" v-model="textColor">
+                   :value="textColors[index]" v-model="textColor">
           </li>
         </ul>
       </li>
@@ -46,17 +46,17 @@
         <ul class="styler-list align">
           <li>
             <button class="styler-button" @click="execute('justifyright')">
-              <icons name="right" />
+              <icons name="right"/>
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('justifycenter')">
-              <icons name="center" />
+              <icons name="center"/>
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('justifyleft')">
-              <icons name="left" />
+              <icons name="left"/>
             </button>
           </li>
         </ul>
@@ -65,17 +65,17 @@
         <ul class="styler-list align">
           <li>
             <button class="styler-button" @click="execute('bold')">
-              <icons name="bold" />
+              <icons name="bold"/>
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('italic')">
-              <icons name="italic" />
+              <icons name="italic"/>
             </button>
           </li>
           <li>
             <button class="styler-button" @click="execute('underline')">
-              <icons name="underline" />
+              <icons name="underline"/>
             </button>
           </li>
         </ul>
@@ -85,12 +85,12 @@
 </template>
 
 <script>
-import { createPopper } from "@popperjs/core";
+import {createPopper} from "@popperjs/core";
 import Icons from './Icons';
-import { isParentTo } from './../util';
+import {isParentTo} from '../util';
 
 export default {
-  components: { Icons },
+  components: {Icons},
   props: {
     el: {
       type: Object,
@@ -169,8 +169,8 @@ export default {
     },
     hideStyler(event) {
       if (
-        (event && isParentTo(event.target, this.$el)) ||
-        (event && isParentTo(event.target, this.el))
+          (event && isParentTo(event.target, this.$el)) ||
+          (event && isParentTo(event.target, this.el))
       ) {
         return
       }
@@ -197,7 +197,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .styler {
   position: absolute;
   top: 0;
@@ -249,7 +249,7 @@ export default {
   height: 42px;
 }
 
-.colorer li>input {
+.colorer li > input {
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
@@ -261,31 +261,31 @@ export default {
   outline: none;
 }
 
-.colorer li>input:checked {
+.colorer li > input:checked {
   border-color: #475564;
 }
 
-.colorer li>input:hover {
+.colorer li > input:hover {
   border-color: #475564;
 }
 
-.colorer li>input#colorRed {
+.colorer li > input#colorRed {
   background: #ff3d3d;
 }
 
-.colorer li>input#colorBlue {
+.colorer li > input#colorBlue {
   background: #0072FF;
 }
 
-.colorer li>input#colorGreen {
+.colorer li > input#colorGreen {
   background: #18d88b;
 }
 
-.colorer li>input#colorBlack {
+.colorer li > input#colorBlack {
   background: #000;
 }
 
-.colorer li>input#colorWhite {
+.colorer li > input#colorWhite {
   background: #fff;
 }
 
@@ -325,7 +325,7 @@ export default {
 }
 
 .button {
-  border:none;
+  border: none;
   border-radius: 20px 0px 0px 20px;
   background: #0d6efd;
   color: #fff;

@@ -6,11 +6,11 @@
           <img src="https://getbootstrap.com/docs/5.0/examples/heroes/bootstrap-themes.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500">
         </div>
         <div class="col-lg-6">
-          <h1 class="display-5 fw-bold lh-1 mb-3" v-html="$sectionData.title" v-styler:title="$sectionData.title"></h1>
-          <p class="lead" v-html="$sectionData.content" v-styler:content="$sectionData.content"></p>
+          <h1 class="display-5 fw-bold lh-1 mb-3" v-html="$sectionData.title"></h1>
+          <p class="lead" v-html="$sectionData.content"></p>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <a type="button" class="btn btn-primary btn-lg px-4 me-md-2" v-styler:shopButton="$sectionData.shopButton" v-html="$sectionData.shopButton.text" :href="$sectionData.shopButton.href"/>
+          <a type="button" class="btn btn-primary btn-lg px-4 me-md-2" v-html="$sectionData.shopButton.text" :href="$sectionData.shopButton.href"/>
           <button type="button" class="btn btn-outline-secondary btn-lg px-4">دیدن محصول</button>
         </div>
       </div>
@@ -31,14 +31,16 @@ export default {
     classes: Types.ClassList,
     shopButton: Types.Button
   },
+  editorNames: {
+    title: 'سربرگ',
+    content: 'متن',
+    shopButton: 'دکمه فروشگاه'
+  },
   props: {
     id: {
       type: Number,
       required: true
     }
-  },
-  created() {
-    console.log();
   }
 }
 </script>

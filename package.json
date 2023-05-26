@@ -4,21 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo": "cd demo && npm run dev",
+    "demo:vuetify": "cd vuetify-demo && npm run dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/javadghasemi/vue-page-builder.git"
   },
-  "author": "",
+  "author": "Javad Ghasemi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/javadghasemi/vue-page-builder/issues"
   },
   "homepage": "https://github.com/javadghasemi/vue-page-builder#readme",
-  "dependencies": {
+  "devDependencies": {
     "@popperjs/core": "^2.11.7",
     "lodash-es": "^4.17.21",
-    "sortablejs": "^1.15.0"
+    "pinia": "^2.1.3",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.2.47"
   }
 }

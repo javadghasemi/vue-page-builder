@@ -1,4 +1,129 @@
 .font-vazir {
-  font-family: Vazirmatn, sans-serif;
-  font-weight: 300;
+    font-family: Vazirmatn, sans-serif;
+    font-weight: 300;
+}
+
+.icons {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.menu {
+    user-select: none;
+    position: fixed;
+    z-index: 300;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    width: 250px;
+    background: #fff;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    list-style: none;
+    transition: 0.4s;
+    box-shadow: 1px 0 10px rgba(50, 60, 71, 0.2);
+    transform: translate3d(-100%, 0, 0);
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid rgba(50, 60, 71, 0.1);
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    fill: #c1c1c1;
+    transition: 0.2s;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+.menu.is-visible {
+    transform: translate3d(0, 0, 0);
+}
+
+/* Input Styles */
+.input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0.375rem 0.375rem 0.375rem 0.75rem;
+    -moz-padding-start: calc(0.75rem - 3px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.input-text {
+    font-size: 1rem;
+    margin-bottom: 3px;
+}
+
+/* Colors Style */
+.green {
+    background-color: #18d88b;
+}
+
+.green:hover {
+    background-color: #17c07d;
+    cursor: pointer;
+}
+
+.red {
+    background-color: #ff3d3d;
+}
+
+.red:hover {
+    cursor: pointer;
+    background-color: #d13232;
+}
+
+.gray {
+    background-color: #c1c1c1;
+}
+
+.gray:hover {
+    cursor: pointer;
+    background-color: #b1b0b0;
+}
+
+.blue {
+    background-color: #0072FF;
+}
+
+.blue:hover {
+    cursor: pointer;
+    background-color: #0464d8;
 }

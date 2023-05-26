@@ -6,13 +6,13 @@ import VuePageBuilder from './../../src';
 // Components
 import hero1 from './sections/hero/hero1.vue';
 
-VuePageBuilder.component('hero1', hero1);
+VuePageBuilder.component('هیرو 1', hero1);
 
 const app = createApp(App);
 
 app.use(VuePageBuilder, {
     assets: {
-        css: 'css/style.css'
+        css: 'css/ControllerPanel.style.css'
     },
     themes: [{
         name: 'تم تست 1',

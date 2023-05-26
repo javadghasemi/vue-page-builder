@@ -1,0 +1,66 @@
+.menu-body {
+    display: none;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.menu-group .menu-body {
+    width: 90%;
+    margin: 10px auto;
+}
+
+.menu-group.is-visible .menu-body {
+    display: block
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    fill: #c1c1c1;
+    transition: 0.2s;
+}
+
+.menu-element {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 5px;
+    background: rgba(193, 193, 193, 1);
+    transition: 0.3s;
+    cursor: pointer;
+    color: #fff;
+    overflow: hidden;
+    user-select: none;
+}
+
+a.menu-element:hover {
+    color: #eb008b;
+}
+
+.menu-element:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.menu-element:hover {
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.125), 0 10px 10px rgba(0, 0, 0, 0.1)
+}
+
+.menu-elementImage {
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.menu-elementTitle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding: 5px;
+}

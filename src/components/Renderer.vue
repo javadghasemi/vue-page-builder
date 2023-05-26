@@ -6,24 +6,23 @@
 
 <script>
 export default {
-    name: 'Renderer',
-    props: {
-        data: {
-            type: Object,
-            default() {
-                return {
-                    title: '',
-                    sections: []
-                }
-            }
+  name: 'Renderer',
+  props: {
+    data: {
+      type: Object,
+      default() {
+        return {
+          title: '',
+          sections: []
         }
-    },
-    created() {
-        console.log();
-        this.$builder.set(this.data);
-        this.$builder.isEditing.value = false;
-        this.$builder.isRendered = true;
+      }
     }
+  },
+  created() {
+    this.$builder.set(this.data);
+    this.$builder.isEditing.value = false;
+    this.$builder.isRendered = true;
+  }
 }
 </script>
 
