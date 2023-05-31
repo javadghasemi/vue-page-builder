@@ -4,7 +4,7 @@
          :class="{ 'is-sorting': builderStore.isSorting, 'is-editable': $builder.isEditing.value }"
     >
       <component
-          v-for="section in getAddedSections"
+          v-for="section in this.sectionStore.getAllSections"
           :is="section.name"
           :key="section.id"
           :id="section.id"
@@ -144,6 +144,7 @@ export default {
           group: this.$builder.components[sec].group,
           cover: this.$builder.components[sec].cover,
           schema: this.$builder.components[sec].$schema,
+          editor: this.$builder.components[sec].editor,
           editorNames: this.$builder.components[sec].editorNames
         }
       });

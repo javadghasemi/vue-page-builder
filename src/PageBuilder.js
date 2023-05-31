@@ -34,6 +34,7 @@ class PageBuilder {
   plugins = [];
   themes = [];
   components = {};
+  editors = {};
 
   constructor(options) {
     this.title = options.title;
@@ -65,12 +66,19 @@ class PageBuilder {
       definition = name;
       name = definition.name;
     }
-
-
-    this.components[name] = defineComponent({
-      ...definition,
-      mixins: [this.mixin]
-    });
+    //
+    // if (definition.main && definition.editor) {
+    //   this.editors[name] = definition.editor;
+    //   this.components[name] = defineComponent({
+    //     ...definition.main,
+    //     mixins: [this.mixin]
+    //   });
+    // } else {
+      this.components[name] = defineComponent({
+        ...definition,
+        mixins: [this.mixin]
+      });
+    // }
   }
 
   set(data) {

@@ -7,7 +7,10 @@
             <icons name="arrowDown"/>
           </span>
       </div>
-      <div class="menu-body">
+      <div class="menu-body" v-if="section.editor">
+        <component :is="section.editor" />
+      </div>
+      <div class="menu-body" v-else>
         <component v-for="(value, key) in section.schema" :is="findForm(value)" :elementName="key" :sectionIndex="index" />
       </div>
     </li>

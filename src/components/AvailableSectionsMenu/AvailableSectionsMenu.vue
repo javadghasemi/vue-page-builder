@@ -67,6 +67,7 @@ export default defineComponent({
       group.classList.toggle('is-visible');
     },
     addSection(section) {
+      console.log('------------------', section)
       this.sectionStore.addSection(section);
     },
   }

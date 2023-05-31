@@ -6,11 +6,15 @@ export const useSectionStore = defineStore('section', {
     availableSections: [],
     sections: []
   }),
+  getters: {
+    getAllSections() {
+      return this.sections;
+    }
+  },
   actions: {
     setAvailableSections(sections) {
       this.availableSections = sections;
     },
-
     addSection(options, position = undefined) {
       const section = new Section(options);
 

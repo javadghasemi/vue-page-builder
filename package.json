@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "demo": "cd demo && npm run dev",
-    "demo:vuetify": "cd vuetify-demo && npm run dev"
+    "demo:vuetify": "cd demo-vuetify && npm run dev"
   },
   "repository": {
     "type": "git",
