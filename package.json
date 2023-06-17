@@ -1,0 +1,16 @@
+{
+  "name": "new-page-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "demo": "cd demo && npm run dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mdi/font": "^7.2.96",
+    "pinia": "^2.1.4",
+    "vuedraggable": "^4.1.0"
+  }
+}

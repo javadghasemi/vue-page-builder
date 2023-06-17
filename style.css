@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.eicon {
+    display: inline-block;
+    font-size: inherit;
+    font-weight: 400;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    color: white;
+}
+
+/* Editor Styles */
+.element-control-field input {
+    border-start-start-radius: 3px;
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-end-start-radius: 3px;
+}
+
+.element-control-field input {
+    padding: 5px;
+    color: #d5d8dc;
+    border-radius: 3px;
+    font-size: 12px;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    border: 1px solid #3f444b;
+    outline: none;
+}
+
+.element-control-field .element-editor-input {
+    margin-top: 5px;
+}
