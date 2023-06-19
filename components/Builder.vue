@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <div class="page-builder-editor-wrapper">
+  <div class="page-builder-editor-wrapper" dir="rtl">
     <elements @save="onSave"/>
 
     <main id="page-builder-preview" dir="rtl" style="margin-left: auto">
@@ -46,12 +46,14 @@ export default {
   display: flex;
   width: 100%;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 #page-builder-preview {
   overflow-y: hidden;
   align-items: flex-start;
   margin-left: auto;
+  position: absolute;
 }
 
 </style>

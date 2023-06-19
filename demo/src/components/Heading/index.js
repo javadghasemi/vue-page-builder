@@ -7,5 +7,7 @@ export default {
   icon: '<i class="mdi mdi-format-color-text eicon"></i>',
   render: Heading,
   editor: HeadingEditor,
-  $schema: ['title']
+  $schema: {
+    title: 'lorem ipsum dollar site'
+  }
 }

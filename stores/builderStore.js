@@ -24,11 +24,11 @@ export const useBuilderStore = defineStore('builder', {
     },
     selectElement(el, initialData) {
       const reactiveData = {};
-      for (const data of el.$schema) {
-        if (initialData[data])
+      for (const data in el.$schema) {
+        if (initialData && initialData[data])
           reactiveData[data] = initialData[data];
         else
-          reactiveData[data] = initialData || null;
+          reactiveData[data] = el.$schema[data] || null;
       }
 
       const element = new Element(el.name,
@@ -55,6 +55,7 @@ export const useBuilderStore = defineStore('builder', {
       }
     },
     getShowPanelState(state) {
+      console.log(state.isShownPanel)
       return state.isShownPanel;
     },
     getComponentGroups(state) {

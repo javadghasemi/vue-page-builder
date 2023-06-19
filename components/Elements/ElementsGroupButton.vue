@@ -8,6 +8,7 @@ export default {
   methods: {
     collapse() {
       this.open = !this.open;
+      console.log(this.open)
       this.$emit('collapse', this.open);
     }
   }
@@ -17,7 +18,7 @@ export default {
 <template>
   <button class="elements-panel-heading elements-panel-category-title" @click="collapse">
     <span class="elements-panel-heading-toggle">
-      <i class="mdi mdi-triangle-down" :class="{'collapse': !open}"></i>
+      <i class="mdi mdi-triangle-down" :class="{'mdi-rotate-270': !open}"></i>
     </span>
     <span class="elements-panel-heading-title">{{ title }}</span>
   </button>
@@ -53,8 +54,8 @@ export default {
   color: white;
 }
 
-.collapse {
-  transform: rotate(30deg);
+.collapse-icon {
+  transform: rotate(120deg);
 }
 
 </style>

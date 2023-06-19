@@ -65,7 +65,9 @@ export default {
   font-size: 13px;
   left: 0;
   top: 0;
-  transform: translate3d(-100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  transition: 0.4s;
+
 }
 
 .elements-panel-inner {
