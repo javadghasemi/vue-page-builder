@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demo": "cd demo && npm run dev"
+    "demo": "cd demo && npm run dev",
+    "demo:vuetify": "cd demo-vuetify-ss && npm run dev"
   },
   "author": "",
   "license": "ISC",

@@ -1,5 +1,7 @@
 import {defineStore} from "pinia";
 
+import {Element} from "../Element";
+
 export const useBuilderStore = defineStore('builder', {
   state() {
     return {
@@ -19,9 +21,23 @@ export const useBuilderStore = defineStore('builder', {
       }
 
       this.components[component.group].push(component);
-      console.log(this.components);
     },
-    selectElement(element) {
+    selectElement(el, initialData) {
+      const reactiveData = {};
+      for (const data of el.$schema) {
+        if (initialData[data])
+          reactiveData[data] = initialData[data];
+        else
+          reactiveData[data] = initialData || null;
+      }
+
+      const element = new Element(el.name,
+        el.group,
+        el.icon,
+        el.render,
+        el.editor,
+        reactiveData);
+
       this.selectedElements.push(element);
     },
     changeEditorState() {
@@ -29,6 +45,15 @@ export const useBuilderStore = defineStore('builder', {
     }
   },
   getters: {
+    getElement(state) {
+      return (group, name) => {
+        for (const el of state.components[group]) {
+          if (el.name === name) {
+            return el;
+          }
+        }
+      }
+    },
     getShowPanelState(state) {
       return state.isShownPanel;
     },
@@ -37,11 +62,25 @@ export const useBuilderStore = defineStore('builder', {
     },
     groupElements(state) {
       return (groupName) => {
+        console.log(state.components[groupName])
         return state.components[groupName];
       }
     },
     getSelectedElements(state) {
       return state.selectedElements;
+    },
+    prepareDataForSave(state) {
+      const result = [];
+
+      for (const element of state.selectedElements) {
+        result.push({
+          group: element.group,
+          name: element.name,
+          data: element.data
+        });
+      }
+
+      return result;
     },
     getEditorState(state) {
       return state.editorState;

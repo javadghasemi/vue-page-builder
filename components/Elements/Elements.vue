@@ -17,7 +17,7 @@
       <footer id="elements-panel-footer">
         <nav id="elements-panel-footer-tools">
           <div id="elements-panel-footer-saver-publish" class="elements-panel-footer-tool">
-            <button id="elements-panel-saver-button-publish" class="elements-button e-primary">
+            <button id="elements-panel-saver-button-publish" class="elements-button e-primary" @click="$emit('save')">
               SAVE
             </button>
           </div>
@@ -43,6 +43,7 @@ export default {
     drag: false,
     showPanel: false
   }),
+  emits: ['save'],
   computed: {
     ...mapStores(useBuilderStore)
   },

@@ -19,6 +19,8 @@ export default {
     addElement(element) {
       this.builderStore.selectElement(element);
     }
+  },
+  created() {
   }
 }
 </script>

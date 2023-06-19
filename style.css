@@ -17,14 +17,15 @@
 }
 
 /* Editor Styles */
-.element-control-field input {
+
+.element-control-field input, select {
     border-start-start-radius: 3px;
     border-start-end-radius: 0;
     border-end-end-radius: 0;
     border-end-start-radius: 3px;
 }
 
-.element-control-field input {
+.element-control-field input, select {
     padding: 5px;
     color: #d5d8dc;
     border-radius: 3px;
@@ -38,4 +39,32 @@
 
 .element-control-field .element-editor-input {
     margin-top: 5px;
+}
+
+.element-control-title {
+    flex-shrink: 0;
+    max-width: 60%;
+}
+
+.element-control-input-wrapper {
+    margin-left: auto;
+}
+
+.element-control-input-wrapper select {
+    appearance: none;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    flex-basis: 100%;
+    padding-left: 5px;
+    padding-right: 20px;
+    cursor: pointer;}
+
+.element-control-unit-5 {
+    max-width: 400px;
+    width: 52%;
 }

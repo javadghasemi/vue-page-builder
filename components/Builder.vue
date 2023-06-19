@@ -4,21 +4,37 @@ import {mapStores} from "pinia";
 import {useBuilderStore} from "../stores/builderStore";
 
 export default {
+  props: ['data'],
+  emits: ['save'],
+  components: {
+    Elements
+  },
   computed: {
     ...mapStores(useBuilderStore)
   },
-  components: {
-    Elements
+  mounted() {
+    if (this.data && this.data.length) {
+      for (const element of this.data) {
+        const el = this.builderStore.getElement(element.group, element.name);
+        this.builderStore.selectElement(el, element.data);
+      }
+    }
+  },
+  methods: {
+    onSave() {
+      this.$emit('save', this.builderStore.prepareDataForSave);
+    }
   }
 }
 </script>
 
 <template>
   <div class="page-builder-editor-wrapper">
-    <elements></elements>
-    <main id="page-builder-preview">
-      <div id="elements-preview-wrapper" v-for="element in this.builderStore.getSelectedElements">
-        <component :is="element.render"/>
+    <elements @save="onSave"/>
+
+    <main id="page-builder-preview" dir="rtl" style="margin-left: auto">
+      <div id="elements-preview-wrapper" v-for="(element, index) in this.builderStore.getSelectedElements">
+        <component :is="element.render" :data="element.data" :id="index"/>
       </div>
     </main>
 
@@ -35,7 +51,7 @@ export default {
 #page-builder-preview {
   overflow-y: hidden;
   align-items: flex-start;
-  position: fixed;
+  margin-left: auto;
 }
 
 </style>

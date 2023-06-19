@@ -6,5 +6,6 @@ export default {
   group: 'Basic',
   icon: '<i class="mdi mdi-format-color-text eicon"></i>',
   render: Heading,
-  editor: HeadingEditor
+  editor: HeadingEditor,
+  $schema: ['title']
 }

@@ -25,7 +25,7 @@ export default {
 
     <div class="element-control" :style="{display: open[index] ? 'flex' : 'none'}">
       <div class="element-control-content">
-        <component :is="element.editor"/>
+        <component :is="element.editor" :data="element.data"/>
       </div>
     </div>
   </div>
