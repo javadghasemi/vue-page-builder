@@ -14,6 +14,10 @@ export default {
   methods: {
     collapse(index) {
       this.open[index] = !this.open[index];
+    },
+    deleteElement(index) {
+      console.log(this.builderStore)
+      this.builderStore.deleteElement(index);
     }
   }
 };
@@ -21,7 +25,11 @@ export default {
 
 <template>
   <div v-for="(element, index) in builderStore.getSelectedElements" :key="index">
-    <elements-group-button :title="element.name" @collapse="collapse(index)"/>
+    <elements-group-button
+        :title="element.name"
+        :editor="true"
+        @collapse="collapse(index)"
+        @delete-element="this.deleteElement(index)"/>
 
     <div class="element-control" :style="{display: open[index] ? 'flex' : 'none'}">
       <div class="element-control-content">

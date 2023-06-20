@@ -3,25 +3,35 @@ export default {
   data: () => ({
     open: false
   }),
-  props: ['title'],
-  emits: ['collapse'],
+  props: ['title', 'editor'],
+  emits: ['collapse', 'deleteElement'],
   methods: {
     collapse() {
       this.open = !this.open;
       console.log(this.open)
       this.$emit('collapse', this.open);
+    },
+    deleteEl() {
+      this.$emit('deleteElement');
     }
   }
 }
 </script>
 
 <template>
-  <button class="elements-panel-heading elements-panel-category-title" @click="collapse">
-    <span class="elements-panel-heading-toggle">
-      <i class="mdi mdi-triangle-down" :class="{'mdi-rotate-270': !open}"></i>
-    </span>
-    <span class="elements-panel-heading-title">{{ title }}</span>
-  </button>
+  <div class="el-d-flex" id="el-elements-group">
+    <button class="elements-panel-heading elements-panel-category-title el-width-100" @click="collapse">
+      <span class="elements-panel-heading-toggle">
+        <i class="mdi mdi-triangle-down" :class="{'mdi-rotate-270': !open}"></i>
+      </span>
+      <span class="elements-panel-heading-title">{{ title }}</span>
+    </button>
+    <button v-if="editor" class="elements-panel-heading elements-panel-category-title" id="trash-btn" @click="deleteEl">
+      <span>
+        <i class="mdi mdi-delete"></i>
+      </span>
+    </button>
+  </div>
 </template>
 
 <style scoped>
@@ -31,7 +41,6 @@ export default {
   gap: 5px;
   height: 48px;
   padding-inline: 20px;
-  width: 100%;
   cursor: pointer;
 }
 
@@ -58,4 +67,24 @@ export default {
   transform: rotate(120deg);
 }
 
+#trash-btn {
+  padding: 5px;
+  margin-left: 10px;
+  height: 20%;
+  margin-top: 12px;
+  transition: 0.3s;
+
+}
+
+#trash-btn:hover {
+  background-color: #3d4146;
+}
+
+#el-elements-group {
+  transition: 0.3s;
+}
+
+#el-elements-group:hover {
+  background-color: #2c2f33;
+}
 </style>

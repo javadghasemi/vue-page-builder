@@ -68,3 +68,11 @@
     max-width: 400px;
     width: 52%;
 }
+
+.el-d-flex {
+    display: flex;
+}
+
+.el-width-100 {
+    width: 100%;
+}

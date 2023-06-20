@@ -32,6 +32,7 @@ export default {
     <div class="elements-panel-category-items"
          :style="{display: collapseItems ? 'grid' : 'none'}"
          v-for="element in builderStore.groupElements(categoryName)">
+      
       <element :title="element.name" :icon='element.icon' @click="addElement(element)"/>
     </div>
   </div>

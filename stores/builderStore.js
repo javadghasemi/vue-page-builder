@@ -42,7 +42,10 @@ export const useBuilderStore = defineStore('builder', {
     },
     changeEditorState() {
       this.editorState = !this.editorState;
-    }
+    },
+    deleteElement(index) {
+      this.selectedElements.splice(index, 1);
+    },
   },
   getters: {
     getElement(state) {

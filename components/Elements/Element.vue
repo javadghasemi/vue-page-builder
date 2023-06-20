@@ -26,6 +26,7 @@ export default {
   cursor: move;
   position: relative;
   transition: all .3s;
+  margin-top: 10px;
 }
 
 .elements-panel .elements-element:hover {

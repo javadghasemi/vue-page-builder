@@ -9,4 +9,9 @@ function onSave(output) {
       {group: 'Basic', name: 'Heading', data: {title: 'Javad'}},
       {group: 'Basic', name: 'Heading', data: {title: 'Ghasemi'}},
   ]"/>
+
+<!--  <render :data="[-->
+<!--      {group: 'Basic', name: 'Heading', data: {title: 'Javad'}},-->
+<!--      {group: 'Basic', name: 'Heading', data: {title: 'Ghasemi'}},-->
+<!--  ]"/>-->
 </template>
