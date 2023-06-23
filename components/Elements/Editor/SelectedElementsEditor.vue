@@ -2,6 +2,7 @@
 import {mapStores} from "pinia";
 import {useBuilderStore} from "../../../stores/builderStore";
 import ElementsGroupButton from "../ElementsGroupButton.vue";
+import {useSelectedElementsStore} from "../../../stores/selectedElementStore";
 
 export default {
   data: () => ({
@@ -9,22 +10,21 @@ export default {
   }),
   components: {ElementsGroupButton},
   computed: {
-    ...mapStores(useBuilderStore)
+    ...mapStores(useBuilderStore, useSelectedElementsStore)
   },
   methods: {
     collapse(index) {
       this.open[index] = !this.open[index];
     },
     deleteElement(index) {
-      console.log(this.builderStore)
-      this.builderStore.deleteElement(index);
+      this.selectedElementsStore.deleteElement(index);
     }
   }
 };
 </script>
 
 <template>
-  <div v-for="(element, index) in builderStore.getSelectedElements" :key="index">
+  <div v-for="(element, index) in selectedElementsStore.getSelectedElements" :key="index">
     <elements-group-button
         :title="element.name"
         :editor="true"
