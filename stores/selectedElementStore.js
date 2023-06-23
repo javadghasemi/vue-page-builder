@@ -30,7 +30,7 @@ export const useSelectedElementsStore = defineStore('selectedElements', {
       this.selectedElements.splice(index, 1);
     },
     $reset() {
-      this.selectElements = [];
+      this.selectedElements = [];
     }
   },
   getters: {

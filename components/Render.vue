@@ -17,9 +17,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.selectedElementsStore.getSelectedItemLength) {
-      this.selectElement();
-    }
+    this.selectElement();
   },
   beforeUnmount() {
     this.selectedElementsStore.$reset();
