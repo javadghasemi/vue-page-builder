@@ -50,5 +50,8 @@ export const useSelectedElementsStore = defineStore('selectedElements', {
 
       return result;
     },
+    getSelectedItemLength(state) {
+      return state.selectedElements.length;
+    }
   }
 });

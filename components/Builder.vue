@@ -14,7 +14,7 @@ export default {
     ...mapStores(useBuilderStore, useSelectedElementsStore)
   },
   mounted() {
-    if (this.data && this.data.length) {
+    if (!this.selectedElementsStore.getSelectedItemLength && this.data && this.data.length) {
       for (const element of this.data) {
         const el = this.builderStore.getElement(element.group, element.name);
         this.selectedElementsStore.selectElement(el, element.data);
