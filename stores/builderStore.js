@@ -22,30 +22,30 @@ export const useBuilderStore = defineStore('builder', {
 
       this.components[component.group].push(component);
     },
-    selectElement(el, initialData) {
-      const reactiveData = {};
-      for (const data in el.$schema) {
-        if (initialData && initialData[data])
-          reactiveData[data] = initialData[data];
-        else
-          reactiveData[data] = el.$schema[data] || null;
-      }
-
-      const element = new Element(el.name,
-        el.group,
-        el.icon,
-        el.render,
-        el.editor,
-        reactiveData);
-
-      this.selectedElements.push(element);
-    },
+    // selectElement(el, initialData) {
+    //   const reactiveData = {};
+    //   for (const data in el.$schema) {
+    //     if (initialData && initialData[data])
+    //       reactiveData[data] = initialData[data];
+    //     else
+    //       reactiveData[data] = el.$schema[data] || null;
+    //   }
+    //
+    //   const element = new Element(el.name,
+    //     el.group,
+    //     el.icon,
+    //     el.render,
+    //     el.editor,
+    //     reactiveData);
+    //
+    //   this.selectedElements.push(element);
+    // },
     changeEditorState() {
       this.editorState = !this.editorState;
     },
-    deleteElement(index) {
-      this.selectedElements.splice(index, 1);
-    },
+    // deleteElement(index) {
+    //   this.selectedElements.splice(index, 1);
+    // },
   },
   getters: {
     getElement(state) {
@@ -70,22 +70,22 @@ export const useBuilderStore = defineStore('builder', {
         return state.components[groupName];
       }
     },
-    getSelectedElements(state) {
-      return state.selectedElements;
-    },
-    prepareDataForSave(state) {
-      const result = [];
-
-      for (const element of state.selectedElements) {
-        result.push({
-          group: element.group,
-          name: element.name,
-          data: element.data
-        });
-      }
-
-      return result;
-    },
+    // getSelectedElements(state) {
+    //   return state.selectedElements;
+    // },
+    // prepareDataForSave(state) {
+    //   const result = [];
+    //
+    //   for (const element of state.selectedElements) {
+    //     result.push({
+    //       group: element.group,
+    //       name: element.name,
+    //       data: element.data
+    //     });
+    //   }
+    //
+    //   return result;
+    // },
     getEditorState(state) {
       return state.editorState;
     }

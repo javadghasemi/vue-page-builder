@@ -3,6 +3,7 @@ import Element from "./Element.vue";
 import {mapStores} from "pinia";
 import {useBuilderStore} from "../../stores/builderStore";
 import ElementsGroupButton from "./ElementsGroupButton.vue";
+import {useSelectedElementsStore} from "../../stores/selectedElementStore";
 
 export default {
   components: {ElementsGroupButton, Element},
@@ -13,14 +14,12 @@ export default {
     }
   },
   computed: {
-    ...mapStores(useBuilderStore)
+    ...mapStores(useBuilderStore, useSelectedElementsStore)
   },
   methods: {
     addElement(element) {
-      this.builderStore.selectElement(element);
+      this.selectedElementsStore.selectElement(element);
     }
-  },
-  created() {
   }
 }
 </script>
