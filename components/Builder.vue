@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     onSave() {
-      this.$emit('save', this.builderStore.prepareDataForSave);
+      this.$emit('save', this.selectedElementsStore.prepareDataForSave);
     }
   }
 }
